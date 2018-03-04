@@ -1,0 +1,8 @@
+[package]
+name = "openhmd-chat-server"
+version = "0.1.0"
+authors = ["TheHellBox <thehellbox11@gmail.com>"]
+
+[dependencies]
+cobalt = "0.22.0"
+bytevec="*"
