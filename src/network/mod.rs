@@ -70,16 +70,6 @@ impl Network {
                 ServerEvent::Connection(rid) => {
                     let cobalt::ConnectionID(id) = rid;
                     println!("Player {} connected!", id);
-
-                    let player = player::Player{
-                        id: id,
-                        position: (0.0, 0.0, 0.0),
-                        rotation: (0.0, 0.0, 0.0),
-                        model: "none".to_string(),
-                        name: "none".to_string()
-                    };
-
-                    players.insert(id, player);
                 },
                 ServerEvent::ConnectionLost(id, status) => {
                     let cobalt::ConnectionID(id) = id;
