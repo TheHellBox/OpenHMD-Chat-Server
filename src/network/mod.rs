@@ -64,6 +64,9 @@ impl Network {
                             player.id = id;
                             players.insert(id, player);
                         },
+                        3 => {
+                            self.send_expect(id, message[1..message.len()].to_vec(), *&message[0], cobalt::MessageKind::Instant);
+                        },
                         _ => {}
                     }
                 },
