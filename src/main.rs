@@ -8,7 +8,7 @@ mod player;
 use std::collections::HashMap;
 
 fn main() {
-    let ip = "127.0.0.1";
+    let ip = "0.0.0.0";
     let port = 4587;
     println!("Starting server on {}:{}...", ip, port);
     let mut server = network::Network::new();

@@ -11,6 +11,27 @@ use cobalt::{
 pub struct Network {
     pub server: Server<UdpSocket,BinaryRateLimiter,NoopPacketModifier>
 }
+
+#[derive(PartialEq, Debug, Default, Clone)]
+pub struct NetAudio {
+    data: Vec<u8>,
+    id: u32
+}
+bytevec_impls! {
+    impl NetAudio {
+        data: Vec<u8>,
+        id: u32
+    }
+}
+impl NetAudio {
+    pub fn to_network(&self) -> Vec<u8>{
+        self.encode::<u8>().unwrap()
+    }
+    pub fn from_network(message: Vec<u8>) -> NetAudio{
+        NetAudio::decode::<u8>(&message).unwrap()
+    }
+}
+
 impl Network {
     pub fn new() -> Network{
         let mut server = Server::<UdpSocket, BinaryRateLimiter, NoopPacketModifier>::new(Config::default());
@@ -65,7 +86,11 @@ impl Network {
                             players.insert(id, player);
                         },
                         3 => {
-                            self.send_expect(id, message[1..message.len()].to_vec(), *&message[0], cobalt::MessageKind::Instant);
+                            let cobalt::ConnectionID(nid) = id;
+                            let mut data = NetAudio::from_network(message[1..message.len()].to_vec());
+                            data.id = nid;
+                            let data = data.to_network();
+                            self.send_expect(id, data, *&message[0], cobalt::MessageKind::Instant);
                         },
                         _ => {}
                     }
