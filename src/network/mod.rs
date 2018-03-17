@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use bytevec::{ByteEncodable, ByteDecodable};
 use cobalt;
 use player;
+use support;
 
 use cobalt::{
     BinaryRateLimiter, Config, NoopPacketModifier, MessageKind, UdpSocket,
@@ -34,7 +35,12 @@ impl NetAudio {
 
 impl Network {
     pub fn new() -> Network{
-        let mut server = Server::<UdpSocket, BinaryRateLimiter, NoopPacketModifier>::new(Config::default());
+        use std::time::Duration;
+
+        let mut config = Config::default();
+        config.connection_closing_threshold = Duration::from_millis(5000);
+        config.connection_drop_threshold = Duration::from_millis(2000);
+        let mut server = Server::<UdpSocket, BinaryRateLimiter, NoopPacketModifier>::new(config);
 
         Network{
             server: server
@@ -68,7 +74,7 @@ impl Network {
             }
         }
     }
-    pub fn accept(&mut self, players: &mut HashMap<u32, player::Player>){
+    pub fn accept(&mut self, players: &mut HashMap<u32, player::Player>, map: &support::map_loader::Map){
         while let Ok(event) = self.server.accept_receive() {
             match event{
                 ServerEvent::Message(id, message) => {
@@ -98,6 +104,13 @@ impl Network {
                 ServerEvent::Connection(rid) => {
                     let cobalt::ConnectionID(id) = rid;
                     println!("Player {} connected!", id);
+                    for (_, conn) in self.server.connections() {
+                        for (obj_id, x) in map.objects(){
+                            let mut data = x.to_network();
+                            data.insert(0, 4);
+                            conn.send(cobalt::MessageKind::Reliable, data);
+                        }
+                    }
                 },
                 ServerEvent::ConnectionLost(id, status) => {
                     let cobalt::ConnectionID(id) = id;

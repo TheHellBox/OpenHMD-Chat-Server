@@ -6,3 +6,5 @@ authors = ["TheHellBox <thehellbox11@gmail.com>"]
 [dependencies]
 cobalt = "0.22.0"
 bytevec="*"
+rand="*"
+json="*"

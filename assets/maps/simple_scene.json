@@ -1,0 +1,16 @@
+{
+  "objects": {
+    "test": {
+      "position": [0.0,0.0,0.0],
+      "rotation": [0.0,0.0,1.0,0.0],
+      "model": "./assets/models/cube.obj",
+      "texture": "./assets/models/cube.obj"
+    },
+    "scene": {
+      "position": [0.0,0.0,0.0],
+      "rotation": [0.0,0.0,1.0,0.0],
+      "model": "./assets/models/scene.obj",
+      "texture": "./assets/textures/background.png"
+    }
+  }
+}
