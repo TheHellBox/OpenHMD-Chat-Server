@@ -106,9 +106,11 @@ impl Network {
                     println!("Player {} connected!", id);
                     for (_, conn) in self.server.connections() {
                         for (obj_id, x) in map.objects(){
-                            let mut data = x.to_network();
-                            data.insert(0, 4);
-                            conn.send(cobalt::MessageKind::Reliable, data);
+                            if conn.id() == id{
+                                let mut data = x.to_network();
+                                data.insert(0, 4);
+                                conn.send(cobalt::MessageKind::Reliable, data);
+                            }
                         }
                     }
                 },
