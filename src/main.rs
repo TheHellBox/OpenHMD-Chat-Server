@@ -14,13 +14,13 @@ use std::fs::File;
 use std::io::prelude::*;
 
 fn main() {
+
     let ip = "0.0.0.0";
     let port = 4587;
     println!("Starting server on {}:{}...", ip, port);
     let mut server = network::Network::new();
     let mut playerlist: HashMap<u32, player::Player>  = HashMap::with_capacity(128);
     server.listen(ip, port);
-
     println!("Loading map...");
     let mut file = File::open("./assets/maps/simple_scene.json").unwrap();
     let mut content = String::new();

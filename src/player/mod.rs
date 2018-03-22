@@ -1,3 +1,4 @@
+use network;
 use bytevec::ByteEncodable;
 use bytevec::ByteDecodable;
 #[derive(PartialEq, Debug, Default)]
@@ -6,7 +7,8 @@ pub struct Player {
     pub position: (f32, f32, f32),
     pub rotation: (f32, f32, f32, f32),
     pub model: String,
-    pub name: String
+    pub name: String,
+    pub params: network::client_params::ClParams,
 }
 impl Player {
     pub fn to_network(&self) -> Vec<u8>{
