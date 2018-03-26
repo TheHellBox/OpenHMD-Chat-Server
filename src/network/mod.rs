@@ -203,6 +203,10 @@ impl Network {
                                 let mut data = x.to_network();
                                 self.tx.send((data, rid,4, cobalt::MessageKind::Reliable));
                             }
+                            for (col_id, x) in map.colliders(){
+                                let mut data = x.to_network();
+                                self.tx.send((data, rid,6, cobalt::MessageKind::Reliable));
+                            }
                             self.send_assets_to(id, &params);
                         },
                         _ => {}

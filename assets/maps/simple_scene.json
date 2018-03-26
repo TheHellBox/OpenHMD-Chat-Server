@@ -12,5 +12,15 @@
       "model": "./assets/models/scene.obj",
       "texture": "./assets/textures/background.png"
     }
+  },
+  "colliders": {
+    "test": {
+      "position": [0.0,0.0,0.0],
+      "scale": [3.0,1.0,3.0]
+    },
+    "test2": {
+      "position": [0.0,-2.0,0.0],
+      "scale": [10.0,1.0,10.0]
+    }
   }
 }
