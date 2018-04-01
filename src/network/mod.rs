@@ -97,6 +97,7 @@ impl Network {
 
         let tx = self.tx.clone();
         let params = params.gamefiles.clone();
+
         // Spawning a new thread, otherwise it will block network thread
         thread::spawn(move ||{
             //Get textures pathes
@@ -106,7 +107,6 @@ impl Network {
 
             let mut pathes = vec![];
 
-            let mut hasher = DefaultHasher::new();
 
             for x in textures{
                 let path = x.unwrap().path();
@@ -137,9 +137,11 @@ impl Network {
                 let mut file = File::open(&filename).unwrap();
                 let mut buf = vec![];
                 file.read_to_end(&mut buf);
+                let mut hasher = DefaultHasher::new();
                 let hash = buf.hash(&mut hasher);
                 let name = filename.display().to_string();
                 let mut file = BufReader::new(buf.as_slice());
+                println!("{} {}", && params.get(&name).unwrap(), &format!("{}", hasher.finish()));
                 if !(params.get(&name).is_some() && params.get(&name).unwrap() == &format!("{}", hasher.finish())) {
                     //That byte means that it start of file stream
                     let mut startmsg = vec![233, 144, 122, 198, 134, 253, 251];
