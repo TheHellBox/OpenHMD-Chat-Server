@@ -141,7 +141,6 @@ impl Network {
                 let hash = buf.hash(&mut hasher);
                 let name = filename.display().to_string();
                 let mut file = BufReader::new(buf.as_slice());
-                println!("{} {}", && params.get(&name).unwrap(), &format!("{}", hasher.finish()));
                 if !(params.get(&name).is_some() && params.get(&name).unwrap() == &format!("{}", hasher.finish())) {
                     //That byte means that it start of file stream
                     let mut startmsg = vec![233, 144, 122, 198, 134, 253, 251];
