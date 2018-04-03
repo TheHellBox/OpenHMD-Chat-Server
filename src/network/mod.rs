@@ -112,7 +112,7 @@ impl Network {
                 let path = x.unwrap().path();
                 if path.is_file(){
                     //Checking if format is ok
-                    if path.extension().unwrap() == "png" || path.extension().unwrap() == "jpeg"{
+                    if path.extension().unwrap() == "png" || path.extension().unwrap() == "jpg" || path.extension().unwrap() == "jpeg"{
                         pathes.push(path);
                     }
                 }
